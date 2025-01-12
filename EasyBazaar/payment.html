@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyBazaar - Payment</title>
+
+    <!-- Add FontAwesome stylesheet -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- Add QRCode.js Library for QR Code Generation -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">EasyBazaar</a>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h2>Payment Method</h2>
+        
+        <!-- Payment buttons with FontAwesome icons -->
+        <div class="mb-3">
+            <button class="btn btn-success w-100 mb-3" id="phonepay" onclick="processPhonePay()">
+                <i class="fab fa-phone-alt"></i> Pay with PhonePe
+            </button>
+            <button class="btn btn-primary w-100 mb-3" id="googlepay" onclick="processGooglePay()">
+                <i class="fab fa-google"></i> Pay with Google Pay
+            </button>
+            <button class="btn btn-dark w-100 mb-3" id="credit-debit" onclick="processCreditDebit()">
+                <i class="fas fa-credit-card"></i> Pay with Credit/Debit Card
+            </button>
+        </div>
+
+        <!-- QR Code for PhonePe or Google Pay -->
+        <div id="qr-container" style="display:none; text-align:center;">
+            <h4>Scan the QR Code to complete payment</h4>
+            <div id="qr-code" style="margin-top:20px;"></div>
+        </div>
+
+        <span style="color: black;"><div id="payment-details" style="display:none;">
+            <h5>Enter Card Details</h5>
+            <form id="payment-form">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name on Card</label>
+                    <input type="text" class="form-control" id="name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="card-number" class="form-label">Card Number</label>
+                    <input type="text" class="form-control" id="card-number" required>
+                </div>
+                <div class="mb-3">
+                    <label for="expiry" class="form-label">Expiry Date</label>
+                    <input type="text" class="form-control" id="expiry" required>
+                </div>
+                <div class="mb-3">
+                    <label for="cvv" class="form-label">CVV</label>
+                    <input type="text" class="form-control" id="cvv" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Place Order</button>
+            </form></span>
+        </div>
+    </div>
+
+    <script>
+        // Simulate payment with PhonePe
+        function processPhonePay() {
+            document.getElementById("qr-container").style.display = "block";  // Show QR Code section
+            // Generate a sample QR code for PhonePe (payment link)
+            $('#qr-code').qrcode({
+                text: "https://www.phonepe.com/pay/1234567890"  // Mock PhonePe payment link (replace with actual link in a real-world scenario)
+            });
+
+            // Hide other payment options
+            document.getElementById("payment-details").style.display = "none";
+            alert("Scan the QR Code to pay using PhonePe!");
+        }
+
+        // Simulate payment with Google Pay
+        function processGooglePay() {
+            document.getElementById("qr-container").style.display = "block";  // Show QR Code section
+            // Generate a sample QR code for Google Pay (payment link)
+            $('#qr-code').qrcode({
+                text: "https://pay.google.com/gp/p/1234567890"  // Mock Google Pay payment link (replace with actual link in a real-world scenario)
+            });
+
+            // Hide other payment options
+            document.getElementById("payment-details").style.display = "none";
+            alert("Scan the QR Code to pay using Google Pay!");
+        }
+
+        // Handle Credit/Debit card payment (requires entering card details)
+        function processCreditDebit() {
+            document.getElementById("payment-details").style.display = "block";
+            document.getElementById("payment-form").addEventListener('submit', function(e) {
+                e.preventDefault();  // Prevent form submission
+                alert("Payment successful via Credit/Debit Card!");
+                localStorage.removeItem('cart');  // Clear the cart after successful order
+                window.location.href = "success.html";  // Redirect to success page
+            });
+        }
+    </script>
+</body>
+</html>
